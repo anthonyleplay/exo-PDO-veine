@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'controller\my-config.php';
-require_once 'controller\indexctrl.php';
+require_once '..\controller\my-config.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -11,24 +11,27 @@ require_once 'controller\indexctrl.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style\style.css">
-    <title>Veine - Bienvenue</title>
+    <link rel="stylesheet" href="..\style\style.css">
+    <title>Veine - Accueil</title>
 </head>
 
 <body>
     <header class="container">
         <div class="row justify-content-center text-center">
             <div class="col py-5">
-                <a class="text-decoration-none" href="index.php"><h1 class="title-veine">VEINE</h1></a>
+                <h1 class="title-veine">VEINE</h1>
                 <p class="text-white">Venez parier bande de veinards !</p>
             </div>
         </div>
     </header>
     <main class="container">
         <div class="row justify-content-center text-center">
-            <div class="col-12 col-md-10 col-lg-6">
-                <a href="pages\login.php"><button class="btn btn-light">Connexion</button></a>
-                <a href="pages\register.php"><button class="btn btn-secondary">S'inscrire</button></a>
+            <div class="col">
+
+                <h2>Bienvenue XXXXXX</h2>
+
+                <a href="pages\login.php"><button class="btn btn-light">liste de contact</button></a><br><br>
+                <a href="pages\register.php"><button class="btn btn-light">lancer un pari</button></a>
             </div>
         </div>
     </main>

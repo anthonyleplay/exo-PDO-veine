@@ -1,0 +1,10 @@
+body{
+    background-color: #457EFF;
+}
+
+.title-veine{
+    font-family: Calibri,sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    text-shadow: rgba(255, 0, 0, 0.34) 0px 3px 4px;
+}
