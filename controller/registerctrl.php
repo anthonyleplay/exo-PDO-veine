@@ -5,6 +5,10 @@ $timeMajor = time() - (60*60*24*365*18);
 $mailRegex = "/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/";
 $pseudoRegex = "/^[a-zA-Z0-9éèêëiîïôöüäàç -]{2,25}$/";
 $phoneRegex = "/^(0)+[0-9]{1}[ -]{0,1}+[0-9]{2}[ -]{0,1}+[0-9]{2}[ -]{0,1}+[0-9]{2}[ -]{0,1}+[0-9]{2}/";
+$birthDateRegex = "/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/";
+$PasswordRegex = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{,}$/";
+
+$registerSuccess = false;
 
 $error = [];
 
@@ -53,35 +57,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     
-    if (isset($_POST['BirthDate'])) {
+    if (isset($_POST['userbirthdate'])) {
     
-        if (!preg_match($BirthDateRegex, $_POST['BirthDate'])) {
-            $error['BirthDate'] = 'Mauvais Format';
+        if (!preg_match($birthDateRegex, $_POST['userbirthdate'])) {
+            $error['userbirthdate'] = 'Mauvais Format';
         };
-        if (empty($_POST['BirthDate'])) {
-            $error['BirthDate'] = 'Veuillez Renseigner le champ';
+        if (empty($_POST['userbirthdate'])) {
+            $error['userbirthdate'] = 'Veuillez Renseigner le champ';
         };
     }
 
 
 
-    if (isset($_POST['Password']) && isset($_POST['VerifPassword'])) {
+    if (isset($_POST['userpassword']) && isset($_POST['userpasswordverify'])) {
 
-        if (!preg_match($PasswordRegex, $_POST['Password'])) {
-            $error['Password'] = 'Mauvais Format';
+        // if (!preg_match($PasswordRegex, $_POST['userpassword'])) {
+        //     $error['userpassword'] = 'Mauvais Format';
+        // };
+        if (empty($_POST['userpassword'])) {
+            $error['userpassword'] = 'Veuillez Renseigner le champ';
         };
-        if (empty($_POST['Password'])) {
-            $error['Password'] = 'Veuillez Renseigner le champ';
+        if (empty($_POST['userpasswordverify'])) {
+            $error['userpasswordverify'] = 'Veuillez Renseigner le champ';
         };
-            
-        if ($_POST['VerifPassword'] != $_POST['Password'] ) {
-            $error['VerfifPassword'] = 'Les mots de passe ne sont pas identiques';
+        if ($_POST['userpasswordverify'] != $_POST['userpassword']) {
+            $error['userpasswordverify'] = 'Les mots de passe ne sont pas identiques';
         };
-        if (empty($_POST['VerifPassword'])) {
-            $error['VerifPassword'] = 'Le champ n\'est pas identique au mot de passe ';
-        };
-    
     };
-
-
+    
+    if (isset($_POST['g-recaptcha-response'])) {
+        // clé captcha !!!
+        $key = "6LdCzcAZAAAAAJp0zx8f1Gxpn96JFhL1GE9hZwML";
+        $captchaResponse = $_POST['g-recaptcha-response'];
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+        $api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $key . "&response=" . $captchaResponse . "&remoteip=" . $remoteip;
+        $decode = json_decode(file_get_contents($api_url), true);
+    };
+    
+    if (isset($_POST['Register-submit']) && count($error) == 0) {
+    
+        if ($decode['success'] == true) {
+    
+            $Users = new Users();
+    
+            $mail = htmlspecialchars($_POST['usermail']);
+            $pseudo = htmlspecialchars($_POST['userpseudo']);
+            $phone = htmlspecialchars($_POST['userphone']);
+            $password = password_hash($_POST['userpassword'], PASSWORD_BCRYPT);
+            $birthdate = htmlspecialchars($_POST['userbirthdate']);
+    
+    
+            $Users->AddUsers($mail, $pseudo, $phone, $password, $birthdate);
+            
+            $registerSuccess = true;
+    
+        } else {
+            $messageError = 'Erreur : Veuillez cochez le captcha pour vous inscrire';
+        };
+    };
 }

@@ -1,8 +1,7 @@
 <?php
 session_start();
 require_once '..\controller\my-config.php';
-require_once '..\controller\accueilctrl.php';
-
+require_once '..\controller\deconnexionctrl.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,27 +12,24 @@ require_once '..\controller\accueilctrl.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="..\style\style.css">
-    <title>Veine - Accueil</title>
+    <title>Veine - deconnexion</title>
 </head>
 
 <body>
     <header class="container">
         <div class="row justify-content-center text-center">
             <div class="col py-5">
-                <h1 class="title-veine">VEINE</h1>
+                <a class="text-decoration-none" href="index.php"><h1 class="title-veine">VEINE</h1></a>
                 <p class="text-white">Venez parier bande de veinards !</p>
             </div>
         </div>
     </header>
     <main class="container">
         <div class="row justify-content-center text-center">
-            <div class="col">
-
-                <h2>Bienvenue XXXXXX</h2>
-
-                <a href="contact.php"><button class="btn btn-light">Liste de contact</button></a><br><br>
-                <a href="register.php"><button class="btn btn-light">Lancer un pari</button></a><br><br>
-                <a href="deconnexion.php"><button class="btn btn-dark">Déconnexion</button></a>
+            <div class="col-12 col-md-10 col-lg-6">
+                <h1>Vous vous etes déconnecté avec succées</h1>
+                <a href="pages\login.php"><button class="btn btn-light">Connexion</button></a>
+                <a href="pages\register.php"><button class="btn btn-secondary">S'inscrire</button></a>
             </div>
         </div>
     </main>

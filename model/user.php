@@ -20,38 +20,94 @@ class Users
     public function VerifyMailExist($mail)
     {
 
-        $query = 'SELECT `users_mail` FROM lhp4_users WHERE `users_mail` =  "' . $mail .'"' ;
+        $query = 'SELECT `users_mail` FROM lhp4_users WHERE `users_mail` = :userMail ';
 
         try {
-            $resultQuery = $this->bdd->query($query);
+            // Permet de vérifier si le Mail est déja présent dans la base de donnée ou non //
+            $resultQuery = $this->bdd->prepare($query);
+            $resultQuery->bindValue(':userMail', $mail);
+            $resultQuery->execute();
             $count = $resultQuery->rowCount();
             if ($count == 0) {
+                // Si mail existe dans bdd = false //
                 return false;
-            }else {
+            } else {
+                // Si mail existe pas dans bdd = true //
                 return true;
             }
-        
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
     }
 
+    public function VerifyPassword($mail, $password)
+    {
+
+        $query = 'SELECT `users_mail`, `users_password` FROM lhp4_users WHERE `users_mail` = :userMail ';
+
+        try {
+            // Permet de vérifier si le Mail est déja présent dans la base de donnée ou non //
+            $resultQuery = $this->bdd->prepare($query);
+            $resultQuery->bindValue(':userMail', $mail);
+            $resultQuery->execute();
+            $count = $resultQuery->rowCount();
+
+            $donnees = $resultQuery->fetchAll();
+          
+            var_dump($donnees);
+
+            if ($count == 0 && password_verify( $password , $donnees[`users_password`] )) {
+                // Si mail existe dans bdd ET le mot de passe est verifier = true //
+                return true;
+            } else {
+                // Si mail existe pas dans bdd ou le MDP n'est pas bon (verifier) = false //
+                return false;
+            }
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
     public function VerifyPseudoExist($pseudo)
     {
 
-        $query = 'SELECT `users_pseudo` FROM lhp4_users WHERE `users_pseudo` =  "' . $pseudo .'"' ;
+        $query = 'SELECT `users_pseudo` FROM lhp4_users WHERE `users_pseudo` = :userPseudo ';
 
         try {
-            $resultQuery = $this->bdd->query($query);
+            // Permet de vérifier si le Mail est déja présent dans la base de donnée ou non //
+            $resultQuery = $this->bdd->prepare($query);
+            $resultQuery->bindValue(':userPseudo', $pseudo);
+            $resultQuery->execute();
             $count = $resultQuery->rowCount();
             if ($count == 0) {
+                // Si mail existe dans bdd = false //
                 return false;
-            }else {
+            } else {
+                // Si mail existe pas dans bdd = true //
                 return true;
             }
-        
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
+    public function AddUsers($mail, $pseudo, $phone, $password, $birthdate)
+    {
+
+        $query = 'INSERT INTO lhp4_users (users_mail, users_pseudo, users_phone, users_password, users_birthdate) VALUES (:users_mail, :users_pseudo, :users_phone, :users_password, :users_birthdate)';
+
+        try {
+            // Permet de vérifier si le Mail est déja présent dans la base de donnée ou non //
+            $resultQuery = $this->bdd->prepare($query);
+            $resultQuery->bindValue(':users_mail', $mail);
+            $resultQuery->bindValue(':users_pseudo', $pseudo);
+            $resultQuery->bindValue(':users_phone', $phone);
+            $resultQuery->bindValue(':users_password', $password);
+            $resultQuery->bindValue(':users_birthdate', $birthdate);
+            $resultQuery->execute();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
+
 }

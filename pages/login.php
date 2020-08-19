@@ -19,7 +19,9 @@ require_once '..\controller\loginctrl.php';
     <header class="container">
         <div class="row justify-content-center text-center">
             <div class="col py-3">
-            <a class="text-decoration-none" href="index.php"><h1 class="title-veine">VEINE</h1></a>
+                <a class="text-decoration-none" href="index.php">
+                    <h1 class="title-veine">VEINE</h1>
+                </a>
                 <p class="text-white">Venez parier bande de veinards !</p>
             </div>
         </div>
@@ -28,13 +30,15 @@ require_once '..\controller\loginctrl.php';
         <div class="row justify-content-center text-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <form action="" method="post">
-                    <div class="form-group">
+                    <div class="form-group bg-light px-2 rounded">
                         <label for="usermail">Votre mail</label><br>
-                        <input type="email" class="form-control" name="usermail" id="usermail" placeholder="eMail">
+                        <input type="email" class="form-control" name="usermail" id="usermail" placeholder="eMail" value="<?= isset($_POST['usermail']) ? htmlspecialchars($_POST['usermail']) : '' ?>">
+                        <span class="text-danger"><?= isset($error['usermail']) ? $error['usermail'] : '<br>' ?></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group bg-light px-2 rounded">
                         <label for="userpassword">Taper votre Mot de passe</label><br>
-                        <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Mot de passe">
+                        <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Mot de passe" value="<?= isset($_POST['userpassword']) ? htmlspecialchars($_POST['userpassword']) : '' ?>">
+                        <span class="text-danger"><?= isset($error['userpassword']) ? $error['userpassword'] : '<br>'  ?></span>
                     </div>
                     <div class="form-group">
                         <input class="btn btn-light" type="submit" value="Connexion">
