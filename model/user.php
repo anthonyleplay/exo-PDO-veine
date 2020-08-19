@@ -40,7 +40,7 @@ class Users
         }
     }
 
-    public function VerifyPassword($mail, $password)
+    public function VerifyLogin($mail, $password)
     {
 
         $query = 'SELECT `users_mail`, `users_password` FROM lhp4_users WHERE `users_mail` = :userMail ';
@@ -52,9 +52,7 @@ class Users
             $resultQuery->execute();
             $count = $resultQuery->rowCount();
 
-            $donnees = $resultQuery->fetchAll();
-          
-            var_dump($donnees);
+            $donnees = $resultQuery->fetch();
 
             if ($count == 0 && password_verify( $password , $donnees[`users_password`] )) {
                 // Si mail existe dans bdd ET le mot de passe est verifier = true //
@@ -109,5 +107,33 @@ class Users
         }
     }
 
+    public function GetUserInfos($mail)
+    {
+    
+        $query = 'SELECT * FROM lhp4_users WHERE `users_mail` = :users_mail '; 
+
+        try {
+         
+            $resultQuery = $this->bdd->prepare($query);
+            $resultQuery->bindValue(':users_mail', $mail);
+            $resultQuery->execute();
+            
+            $resultUser = $resultQuery->fetch();
+            
+            if ($resultUser) {
+                
+             return $resultUser;
+               
+            } else {
+               
+               return false;
+
+            }
+
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+    }
 
 }

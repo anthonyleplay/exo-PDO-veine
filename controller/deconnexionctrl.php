@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION["guest"])){
+if (isset($_SESSION["user"])){
     session_destroy();
 }else{
     header("location:..\index.php"); // redirection

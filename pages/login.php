@@ -1,6 +1,4 @@
 <?php
-session_start();
-require_once '..\controller\my-config.php';
 require_once '..\controller\loginctrl.php';
 ?>
 
