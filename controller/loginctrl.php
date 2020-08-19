@@ -28,12 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // verif si le mail est dans la bdd
         } else if (!$Users->VerifyMailExist($_POST['usermail'])) {
-            $error['usermail'] = 'Le mail " ' . $_POST['usermail'] . ' " n\'existe pas';
+            $error['usermail'] = 'login ou mot de passe incorect';
+            $error['userpassword'] = 'login ou mot de passe incorect';
 
             // verif si le mdp correspond au mail dans la bdd
         } else if ($Users->VerifyLogin($_POST['usermail'], $_POST['userpassword'])) {
-            $error['userpassword'] = 'Le pseudo " ' . $_POST['userpassword'] . ' " existe déja';
-            
+            $error['usermail'] = 'login ou mot de passe incorect';
+            $error['userpassword'] = 'login ou mot de passe incorect';
+
         } else {
             // tout est bon => login
             $loginSuccess = true;
