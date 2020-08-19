@@ -42,28 +42,31 @@ class Users
 
     public function VerifyLogin($mail, $password)
     {
-
-        $query = 'SELECT `users_mail`, `users_password` FROM lhp4_users WHERE `users_mail` = :userMail ';
+    
+        $query = 'SELECT `users_mail`, `users_password` FROM lhp4_users WHERE `users_mail` = :users_mail ';
 
         try {
-            // Permet de vérifier si le Mail est déja présent dans la base de donnée ou non //
+         
             $resultQuery = $this->bdd->prepare($query);
-            $resultQuery->bindValue(':userMail', $mail);
+            $resultQuery->bindValue(':users_mail', $mail);
             $resultQuery->execute();
-            $count = $resultQuery->rowCount();
-
-            $donnees = $resultQuery->fetch();
-
-            if ($count == 0 && password_verify( $password , $donnees[`users_password`] )) {
-                // Si mail existe dans bdd ET le mot de passe est verifier = true //
-                return true;
+            
+            $resultUser = $resultQuery->fetch();
+            
+            if ($resultUser) {
+                
+             return password_verify($password, $resultUser['users_password']);
+               
             } else {
-                // Si mail existe pas dans bdd ou le MDP n'est pas bon (verifier) = false //
-                return false;
+               
+               return false;
+
             }
+
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
+    
     }
     public function VerifyPseudoExist($pseudo)
     {

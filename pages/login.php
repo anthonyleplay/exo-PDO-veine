@@ -39,7 +39,7 @@ require_once '..\controller\loginctrl.php';
                         <span class="text-danger"><?= isset($error['userpassword']) ? $error['userpassword'] : '<br>'  ?></span>
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-light" type="submit" value="Connexion">
+                        <button class="btn btn-light" type="submit" id="Login-submit" name="Login-submit">Se Connecter</button>
                     </div>
 
                     <p class="text-white">Vous n'avez pas de compte : <a href="register.php" class="text-light">S'inscrire</a> </p>

@@ -1,53 +1,38 @@
 <?php
 require_once '..\model\user.php';
 
-$mailRegex = "/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/";
-$PasswordRegex = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{,}$/";
-
-$loginSuccess = false;
-
 $error = [];
 
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['usermail'])) {
+    if (empty($_POST['usermail'])) {
+        $error['usermail'] = 'Veuillez Renseigner le champ';
+    };
+}
 
-    // on va chercher les info mail et pseudo en crant un lien vers la bdd
-    $Users = new Users();
+if (isset($_POST['userpassword'])) {
+    if (empty($_POST['userpassword'])) {
+        $error['userpassword'] = 'Veuillez Renseigner le champ';
+    };
+}
 
-    //verification du format de mail (usermail)
-    if (isset($_POST['usermail']) && isset($_POST['userpassword'])) {
+if (isset($_POST['Login-submit']) && count($error) == 0) {
 
-        // verif si il y a rien dans l'un des 2 champ
-        if (empty($_POST['usermail']) || empty($_POST['userpassword'])) {
-            $error['usermail'] = 'Veuillez Renseigner tout les champs';
-            $error['userpassword'] = 'Veuillez Renseigner tout les champs';
+    $loginUser = new Users;
 
-            // verif si c'est bien un email
-        } else if (!filter_var($_POST['usermail'], FILTER_VALIDATE_EMAIL)) {
-            $error['usermail'] = 'Mauvais Format';
+    $mail = $_POST['usermail'];
+    $password = $_POST['userpassword'];
+    var_dump($loginUser->VerifyLogin($mail, $password));
 
-            // verif si le mail est dans la bdd
-        } else if (!$Users->VerifyMailExist($_POST['usermail'])) {
-            $error['usermail'] = 'login ou mot de passe incorect';
-            $error['userpassword'] = 'login ou mot de passe incorect';
+    if ($loginUser->VerifyLogin($mail, $password)) {
 
-            // verif si le mdp correspond au mail dans la bdd
-        } else if ($Users->VerifyLogin($_POST['usermail'], $_POST['userpassword'])) {
-            $error['usermail'] = 'login ou mot de passe incorect';
-            $error['userpassword'] = 'login ou mot de passe incorect';
+        session_start();
+        $_SESSION['user'] = $loginUser->GetUserInfos($mail);
+        header('Location: home.php');
 
-        } else {
-            // tout est bon => login
-            $loginSuccess = true;
+    } else {
 
-            // ouverture de la session
-            $_SESSION['User'] = $Users->GetUserInfos($mail);
-
-            // redirection vert la page accueil vu qu'on est connecté
-            header("location:accueil.php");
-            exit; // arrêt du script
-
-
-        }
+        $error['usermail'] = 'mail ou mot de passe incorect';
+        $error['userpassword'] = 'mail ou mot de passe incorect';
+        
     }
 }
