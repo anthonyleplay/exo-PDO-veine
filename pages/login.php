@@ -14,16 +14,11 @@ require_once '..\controller\loginctrl.php';
 </head>
 
 <body>
-    <header class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col py-3">
-                <a class="text-decoration-none" href="index.php">
-                    <h1 class="title-veine">VEINE</h1>
-                </a>
-                <p class="text-white">Venez parier bande de veinards !</p>
-            </div>
-        </div>
-    </header>
+    <!-- header -->
+    <?php
+    require_once 'part\header.php';
+    ?>
+    
     <main class="container">
         <div class="row justify-content-center text-center">
             <div class="col-12 col-md-8 col-lg-6">
