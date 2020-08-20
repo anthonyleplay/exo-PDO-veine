@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '..\controller\betsctrl.php';
+require_once '..\controller\contactctrl.php';
 
 ?>
 
@@ -12,7 +12,7 @@ require_once '..\controller\betsctrl.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="..\style\style.css">
-    <title>Veine - Pari(s) en cour(s)</title>
+    <title>Veine - Contacts</title>
 </head>
 
 <body>
@@ -73,9 +73,15 @@ require_once '..\controller\betsctrl.php';
         <div class="row justify-content-center text-center">
             <div class="col">
 
-                <h2>PAGE paris en cours</h2>
+                <h2>PAGE CONTACT</h2>
 
-                
+                <h3>demande(s) de contact</h3>
+
+
+
+                <h3>votre liste de contacts</h3>
+
+
 
                 <a href="deconnexion.php"><button class="btn btn-dark">Déconnexion</button></a>
             </div>
